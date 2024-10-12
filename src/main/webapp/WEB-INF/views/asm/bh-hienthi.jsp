@@ -129,6 +129,9 @@
     button {
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     }
+    .container form {
+        margin-right: 20px;
+    }
 </style>
 <body >
 <div class="pt-2 ps-2">
