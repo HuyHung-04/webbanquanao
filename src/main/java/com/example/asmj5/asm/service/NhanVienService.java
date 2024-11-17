@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class NhanVienService {
@@ -30,4 +31,13 @@ public class NhanVienService {
     public NhanVien findById(Integer id){
         return nhanVienRepository.findById(id).get();
     }
+
+    public NhanVien kiemTraDangNhap(String tenDangNhap, String matKhau) {
+        Optional<NhanVien> nhanVien = nhanVienRepository.findByTenDangNhap(tenDangNhap);
+        if (nhanVien.isPresent() && nhanVien.get().getMatKhau().equals(matKhau)) {
+            return nhanVien.get();
+        }
+        return null;
+    }
+
 }
