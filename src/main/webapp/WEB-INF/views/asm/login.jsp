@@ -177,8 +177,11 @@
                 <div class="input-box">
                     <form action="/asm/login" method="post">
                         <header>Create account</header>
+                        <c:if test="${not empty error}">
+                            <p style="color: red; text-align: center;">${error}</p>
+                        </c:if>
                         <div class="input-field">
-                            <input type="text" class="input" id="email" required="" name="user" autocomplete="off">
+                            <input type="text" class="input" id="email" required="" name="user"autocomplete="off">
                             <label for="email">Email</label>
                         </div>
                         <div class="input-field">
