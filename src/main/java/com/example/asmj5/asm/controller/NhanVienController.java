@@ -7,6 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.NoSuchElementException;
+
 @Controller
 @RequestMapping("/asm")
 public class NhanVienController {
@@ -51,5 +54,21 @@ public class NhanVienController {
     public String update(NhanVien nhanVien){
         nhanVienService.update(nhanVien);
         return "redirect:/asm/nv-hienthi";
+    }
+
+    @GetMapping("/nv-search")
+    public String searchForm() {
+        return "asm/nv-hienthi";
+    }
+
+    @PostMapping("/nv-search")
+    public String searchById(@RequestParam("id") Integer id, Model model) {
+        try {
+            NhanVien nhanVien = nhanVienService.findById(id);
+            model.addAttribute("danhSach", List.of(nhanVien));
+        } catch (NoSuchElementException e) {
+            model.addAttribute("error", "Không tìm thấy nhân viên với ID: " + id);
+        }
+        return "asm/nv-hienthi";
     }
 }

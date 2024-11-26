@@ -22,7 +22,6 @@ public class HoaDonService {
     public void update(HoaDon hoaDon){
         hoaDonRepository.save(hoaDon);
     }
-
     public HoaDon findById(Integer idHoaDon){
       return hoaDonRepository.findById(idHoaDon).get();
     }

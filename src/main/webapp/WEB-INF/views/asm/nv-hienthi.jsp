@@ -16,6 +16,14 @@
 <body>
 <div class="container pt-2">
     <h3>Nhân viên</h3>
+    <h5>Tìm kiếm nhân viên</h5>
+    <form action="/asm/nv-search" method="post">
+        <div class="mb-3">
+            <label for="id" class="form-label">ID</label>
+            <input type="text" class="form-control" id="id" name="id">
+        </div>
+        <button type="submit" class="btn btn-primary">Tìm</button>
+    </form>
     <table class="table table-bordered border-primary">
         <thead>
         <tr>

@@ -158,7 +158,7 @@
                     <td>${hd.trangThai ? "Đã thanh toán" : "Chưa thanh toán"}</td>
                 </tr>
                 </c:forEach>
-
+                </tbody>
             </table>
             <h6>Giỏ hàng</h6>
             <table class="table table-bordered border-primary">
