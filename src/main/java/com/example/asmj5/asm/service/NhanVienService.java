@@ -11,23 +11,24 @@ import java.util.List;
 public class NhanVienService {
     @Autowired
     NhanVienRepository nhanVienRepository;
-    public List<NhanVien> getAll(){
+
+    public List<NhanVien> getAll() {
         return nhanVienRepository.findAll();
     }
 
-    public void add(NhanVien nhanVien){
+    public void add(NhanVien nhanVien) {
         nhanVienRepository.save(nhanVien);
     }
 
-    public void update(NhanVien nhanVien){
+    public void update(NhanVien nhanVien) {
         nhanVienRepository.save(nhanVien);
     }
 
-    public void delete(Integer id){
+    public void delete(Integer id) {
         nhanVienRepository.deleteById(id);
     }
 
-    public NhanVien findById(Integer id){
+    public NhanVien findById(Integer id) {
         return nhanVienRepository.findById(id).get();
     }
 }

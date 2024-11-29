@@ -11,23 +11,24 @@ import java.util.List;
 public class KichThuocService {
     @Autowired
     KichThuocRepository kichThuocRepository;
-    public List<KichThuoc> getAll(){
+
+    public List<KichThuoc> getAll() {
         return kichThuocRepository.findAll();
     }
 
-    public void add(KichThuoc kichThuoc){
+    public void add(KichThuoc kichThuoc) {
         kichThuocRepository.save(kichThuoc);
     }
 
-    public void update(KichThuoc kichThuoc){
+    public void update(KichThuoc kichThuoc) {
         kichThuocRepository.save(kichThuoc);
     }
 
-    public void delete(Integer id){
+    public void delete(Integer id) {
         kichThuocRepository.deleteById(id);
     }
 
-    public KichThuoc findById(Integer id){
+    public KichThuoc findById(Integer id) {
         return kichThuocRepository.findById(id).get();
     }
 }

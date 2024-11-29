@@ -11,23 +11,24 @@ import java.util.List;
 public class KhachHangService {
     @Autowired
     KhachHangRepository khachHangRepository;
-    public List<KhachHang> getAll(){
+
+    public List<KhachHang> getAll() {
         return khachHangRepository.findAll();
     }
 
-    public void add(KhachHang khachHang){
+    public void add(KhachHang khachHang) {
         khachHangRepository.save(khachHang);
     }
 
-    public void update(KhachHang khachHang){
+    public void update(KhachHang khachHang) {
         khachHangRepository.save(khachHang);
     }
 
-    public void delete(Integer id){
+    public void delete(Integer id) {
         khachHangRepository.deleteById(id);
     }
 
-    public KhachHang findById(Integer id){
-       return khachHangRepository.findById(id).get();
+    public KhachHang findById(Integer id) {
+        return khachHangRepository.findById(id).get();
     }
 }

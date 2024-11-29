@@ -26,56 +26,59 @@ public class SanPhamChiTietController {
     MauSacService mauSacService;
     @Autowired
     KichThuocService kichThuocService;
+
     @GetMapping("/spct-hienthi")
-    public String hienThi(Model model){
-        model.addAttribute("danhSach",sanPhamChiTietService.getAll());
+    public String hienThi(Model model) {
+        model.addAttribute("danhSach", sanPhamChiTietService.getAll());
         return "asm/spct-hienthi";
     }
 
     @ModelAttribute("danhSachSP")
-    public List<SanPham> getSanPham(){
+    public List<SanPham> getSanPham() {
         return sanPhamService.getAll();
     }
+
     @ModelAttribute("danhSachMS")
-    public List<MauSac> getMauSac(){
+    public List<MauSac> getMauSac() {
         return mauSacService.getAll();
     }
+
     @ModelAttribute("danhSachKT")
-    public List<KichThuoc> getKichThuoc(){
+    public List<KichThuoc> getKichThuoc() {
         return kichThuocService.getAll();
     }
 
     @GetMapping("/spct-viewadd")
-    public String viewAdd(){
+    public String viewAdd() {
         return "asm/spct-viewadd";
     }
 
     @PostMapping("/spct-add")
-    public String add(SanPhamChiTiet sanPhamChiTiet){
+    public String add(SanPhamChiTiet sanPhamChiTiet) {
         sanPhamChiTietService.add(sanPhamChiTiet);
         return "redirect:/asm/spct-hienthi";
     }
 
     @GetMapping("/spct-delete")
-    public String delete(@RequestParam("id") Integer idSPCT){
+    public String delete(@RequestParam("id") Integer idSPCT) {
         sanPhamChiTietService.delete(idSPCT);
         return "redirect:/asm/spct-hienthi";
     }
 
     @GetMapping("/spct-detail")
-    public String detail(@RequestParam("id") Integer idSPCT, Model model){
-        model.addAttribute("spct",sanPhamChiTietService.findById(idSPCT));
+    public String detail(@RequestParam("id") Integer idSPCT, Model model) {
+        model.addAttribute("spct", sanPhamChiTietService.findById(idSPCT));
         return "asm/spct-detail";
     }
 
     @GetMapping("/spct-viewupdate/{id}")
-    public String update(@PathVariable("id") Integer idSPCT, Model model){
-        model.addAttribute("spct",sanPhamChiTietService.findById(idSPCT));
+    public String update(@PathVariable("id") Integer idSPCT, Model model) {
+        model.addAttribute("spct", sanPhamChiTietService.findById(idSPCT));
         return "asm/spct-viewupdate";
     }
 
     @PostMapping("/spct-update")
-    public String update(SanPhamChiTiet sanPhamChiTiet){
+    public String update(SanPhamChiTiet sanPhamChiTiet) {
         sanPhamChiTietService.update(sanPhamChiTiet);
         return "redirect:/asm/spct-hienthi";
     }

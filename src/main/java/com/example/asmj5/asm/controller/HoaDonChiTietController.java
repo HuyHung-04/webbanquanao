@@ -16,13 +16,13 @@ public class HoaDonChiTietController {
     HoaDonChiTietService hoaDonChiTietService;
 
     @GetMapping("/hdct-hienthi")
-    public String hienThi(Model model){
+    public String hienThi(Model model) {
         model.addAttribute("danhSachHDCTHT", hoaDonChiTietService.getAll());
         return "asm/hdct-hienthi";
     }
 
     @GetMapping("/hdct-detail/{id}")
-    public String detail(@PathVariable("id") Integer id, Model model){
+    public String detail(@PathVariable("id") Integer id, Model model) {
         model.addAttribute("hdct", hoaDonChiTietService.findById(id));
         return "asm/hdct-detail";
     }

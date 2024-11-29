@@ -24,6 +24,7 @@ public class BanHangController {
     KhachHangService khachHangService;
     @Autowired
     NhanVienService nhanVienService;
+
     @GetMapping("/bh-hienthi")
     public String hienThi(Model model) {
         List<HoaDon> danhSachHD = hoaDonService.getAll();
@@ -41,17 +42,17 @@ public class BanHangController {
 
 
     @ModelAttribute("danhSachKH")
-    public List<KhachHang> getKhachHang(){
+    public List<KhachHang> getKhachHang() {
         return khachHangService.getAll();
     }
 
     @ModelAttribute("danhSachNV")
-    public List<NhanVien> getNhanVien(){
+    public List<NhanVien> getNhanVien() {
         return nhanVienService.getAll();
     }
 
     @PostMapping("/bh-add")
-    public String addHoaDon(HoaDon hoaDon){
+    public String addHoaDon(HoaDon hoaDon) {
         HoaDon hoaDon1 = new HoaDon();
         hoaDon1.setTrangThai(false);
         hoaDonService.add(hoaDon);
@@ -76,6 +77,7 @@ public class BanHangController {
 
         return "redirect:/asm/bh-hienthi";
     }
+
     @PostMapping("/hdct-delete")
     public String deleteHoaDonChiTiet(@RequestParam("id") Integer id) {
         HoaDonChiTiet hoaDonChiTiet = hoaDonChiTietService.findById(id);
@@ -95,7 +97,6 @@ public class BanHangController {
         hoaDonService.update(hoaDon);
         return "redirect:/asm/bh-hienthi";
     }
-
 
 
 }

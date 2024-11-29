@@ -11,25 +11,24 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/asm")
 public class LoginController {
     @GetMapping("/login")
-    public String viewLogin(){
+    public String viewLogin() {
         return "asm/login";
     }
 
     @PostMapping("/login")
-    public String login(@RequestParam("user") String user, @RequestParam("pass") String pass, Model model){
-        if(user.equals("hoang") && pass.equals("123")){
-            model.addAttribute("user",user);
-            model.addAttribute("pass",pass);
+    public String login(@RequestParam("user") String user, @RequestParam("pass") String pass, Model model) {
+        if (user.equals("hoang") && pass.equals("123")) {
+            model.addAttribute("user", user);
+            model.addAttribute("pass", pass);
             return "asm/trang-chu";
-        }
-        else{
-            model.addAttribute("error","Thong tin dang nhap sai");
+        } else {
+            model.addAttribute("error", "Thong tin dang nhap sai");
             return "buoi2/login";
         }
     }
 
     @GetMapping("/trang-chu")
-    public String viewTrangChu(){
+    public String viewTrangChu() {
         return "asm/trang-chu";
     }
 }

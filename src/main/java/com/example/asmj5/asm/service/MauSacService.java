@@ -11,23 +11,24 @@ import java.util.List;
 public class MauSacService {
     @Autowired
     MauSacRepository mauSacRepository;
-    public List<MauSac> getAll(){
+
+    public List<MauSac> getAll() {
         return mauSacRepository.findAll();
     }
 
-    public void add(MauSac mauSac){
+    public void add(MauSac mauSac) {
         mauSacRepository.save(mauSac);
     }
 
-    public void update(MauSac mauSac){
+    public void update(MauSac mauSac) {
         mauSacRepository.save(mauSac);
     }
 
-    public void delete(Integer id){
+    public void delete(Integer id) {
         mauSacRepository.deleteById(id);
     }
 
-    public MauSac findById(Integer id){
+    public MauSac findById(Integer id) {
         return mauSacRepository.findById(id).get();
     }
 }

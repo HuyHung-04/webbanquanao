@@ -15,16 +15,17 @@ import java.util.stream.Collectors;
 public class HoaDonController {
     @Autowired
     HoaDonService hoaDonService;
+
     @GetMapping("/hd-hienthi")
-    public String hienThi(Model model){
+    public String hienThi(Model model) {
         List<HoaDon> danhSachHDHT = hoaDonService.getAllDaThanhToan();
-        model.addAttribute("danhSachHDHT",danhSachHDHT);
+        model.addAttribute("danhSachHDHT", danhSachHDHT);
         return "asm/hd-hienthi";
     }
 
     @GetMapping("/hd-detail/{id}")
-    public String detail(@PathVariable("id") Integer id, Model model){
-        model.addAttribute("hd",hoaDonService.findById(id));
+    public String detail(@PathVariable("id") Integer id, Model model) {
+        model.addAttribute("hd", hoaDonService.findById(id));
         return "asm/hd-detail";
     }
 }

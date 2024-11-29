@@ -13,19 +13,20 @@ import java.util.List;
 public class HoaDonChiTietService {
     @Autowired
     HoaDonChiTietRepository hoaDonChiTietRepository;
-    public List<HoaDonChiTiet> getAll(){
+
+    public List<HoaDonChiTiet> getAll() {
         return hoaDonChiTietRepository.findAll();
     }
 
-    public void add(HoaDonChiTiet hoaDonChiTiet){
+    public void add(HoaDonChiTiet hoaDonChiTiet) {
         hoaDonChiTietRepository.save(hoaDonChiTiet);
     }
 
-    public HoaDonChiTiet findById(Integer id){
+    public HoaDonChiTiet findById(Integer id) {
         return hoaDonChiTietRepository.findById(id).get();
     }
 
-    public void delete(Integer id){
+    public void delete(Integer id) {
         hoaDonChiTietRepository.deleteById(id);
     }
 

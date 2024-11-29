@@ -9,5 +9,6 @@ import java.util.List;
 @Repository
 public interface HoaDonRepository extends JpaRepository<HoaDon, Integer> {
     List<HoaDon> findByTrangThai(boolean trangThai);
+
     List<HoaDon> findByTrangThaiTrue();
 }

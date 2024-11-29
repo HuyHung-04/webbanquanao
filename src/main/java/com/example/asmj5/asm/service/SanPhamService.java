@@ -12,23 +12,23 @@ public class SanPhamService {
     @Autowired
     SanPhamRepository sanPhamRepository;
 
-    public List<SanPham> getAll(){
+    public List<SanPham> getAll() {
         return sanPhamRepository.findAll();
     }
 
-    public void add(SanPham sanPham){
+    public void add(SanPham sanPham) {
         sanPhamRepository.save(sanPham);
     }
 
-    public void update(SanPham sanPham){
+    public void update(SanPham sanPham) {
         sanPhamRepository.save(sanPham);
     }
 
-    public void delete(Integer id){
+    public void delete(Integer id) {
         sanPhamRepository.deleteById(id);
     }
 
-    public SanPham findById(Integer id){
+    public SanPham findById(Integer id) {
         return sanPhamRepository.findById(id).get();
     }
 }

@@ -11,20 +11,21 @@ import java.util.List;
 public class HoaDonService {
     @Autowired
     HoaDonRepository hoaDonRepository;
+
     public List<HoaDon> getAll() {
         return hoaDonRepository.findByTrangThai(false);
     }
 
-    public void add(HoaDon hoaDon){
+    public void add(HoaDon hoaDon) {
         hoaDonRepository.save(hoaDon);
     }
 
-    public void update(HoaDon hoaDon){
+    public void update(HoaDon hoaDon) {
         hoaDonRepository.save(hoaDon);
     }
 
-    public HoaDon findById(Integer idHoaDon){
-      return hoaDonRepository.findById(idHoaDon).get();
+    public HoaDon findById(Integer idHoaDon) {
+        return hoaDonRepository.findById(idHoaDon).get();
     }
 
     public List<HoaDon> getAllDaThanhToan() {

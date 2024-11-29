@@ -10,19 +10,22 @@
 <html>
 <head>
     <title>Title</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <style>
     body {
         background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
         color: #333;
     }
+
     .container {
         background: rgba(255, 255, 255, 0.95);
         padding: 20px;
         border-radius: 15px;
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     }
+
     h6 {
         color: #1e3c72;
         font-weight: bold;
@@ -71,6 +74,7 @@
         transform: translateY(-3px);
         box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
     }
+
     .container {
         background: rgba(255, 255, 255, 0.9);
         padding: 20px;
@@ -89,12 +93,14 @@
         border-color: #2a5298;
         box-shadow: 0 0 10px rgba(0, 123, 255, 0.2);
     }
+
     .container form {
         background-color: #f1f1f1;
         padding: 20px;
         border-radius: 15px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
+
     table {
         margin-bottom: 30px;
     }
@@ -112,9 +118,11 @@
         background-color: #3b5998;
         transform: scale(1.05);
     }
+
     .container form {
         margin-bottom: 20px;
     }
+
     .container h3 {
         color: #3b5998;
     }
@@ -123,17 +131,20 @@
         text-align: center;
         color: #1e3c72;
     }
+
     table {
         margin-bottom: 30px;
     }
+
     button {
         box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     }
+
     .container form {
         margin-right: 20px;
     }
 </style>
-<body >
+<body>
 <div class="pt-2 ps-2">
     <div class="row">
         <div class="col-8">
@@ -181,10 +192,10 @@
                         <td>${hdct.soLuong}</td>
                         <td>${hdct.donGia}</td>
                         <td>
-                        <form action="/asm/hdct-delete" method="post">
-                            <input type="hidden" name="id" value="${hdct.id}">
-                            <button type="submit" class="btn btn-danger">Xoá</button>
-                        </form>
+                            <form action="/asm/hdct-delete" method="post">
+                                <input type="hidden" name="id" value="${hdct.id}">
+                                <button type="submit" class="btn btn-danger">Xoá</button>
+                            </form>
                         </td>
                     </tr>
                 </c:forEach>
@@ -216,14 +227,14 @@
                         <td>${spct.mauSac.ten}</td>
                         <td>${spct.kichThuoc.ten}</td>
                         <td>${spct.trangThai?"Đang hoạt động":"Dừng hoạt động"}</td>
-                            <c:forEach var="hd" items="${danhSachHD}">
-                        <td>
-                            <form action="/asm/add-cart" method="post">
-                                <input type="hidden" name="idHoaDon" value="${hd.id}">
-                                <input type="hidden" name="idSanPhamChiTiet" value="${spct.id}">
-                                <button type="submit" class="btn btn-danger">Add cart</button>
-                            </form>
-                        </td>
+                        <c:forEach var="hd" items="${danhSachHD}">
+                            <td>
+                                <form action="/asm/add-cart" method="post">
+                                    <input type="hidden" name="idHoaDon" value="${hd.id}">
+                                    <input type="hidden" name="idSanPhamChiTiet" value="${spct.id}">
+                                    <button type="submit" class="btn btn-danger">Add cart</button>
+                                </form>
+                            </td>
                         </c:forEach>
                     </tr>
                 </c:forEach>
@@ -231,7 +242,7 @@
             </table>
             <a class="btn btn-primary" href="/asm/trang-chu">Quay lại trang chủ</a>
         </div>
-        <div class="col-4 pt-4" >
+        <div class="col-4 pt-4">
             <div class="container">
                 <h3>Tạo hoá đơn</h3>
                 <form action="/asm/bh-add" method="post" class="py-4">
@@ -253,7 +264,8 @@
                     </div>
                     <div class="mb-3">
                         <label for="ngayMuaHang" class="form-label">Ngày mua Hàng</label>
-                        <input type="date" class="form-control" id="ngayMuaHang" name="ngayMuaHang" value="${ngayHienTai}" readonly>
+                        <input type="date" class="form-control" id="ngayMuaHang" name="ngayMuaHang"
+                               value="${ngayHienTai}" readonly>
                     </div>
                     <div class="mb-3">
                         <label class="form-label">Trạng thái</label>
@@ -264,12 +276,16 @@
                             </label>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary" onclick="return confirm('Bạn có muốn thêm không?')">Tạo hoá đơn</button>
+                    <button type="submit" class="btn btn-primary" onclick="return confirm('Bạn có muốn thêm không?')">
+                        Tạo hoá đơn
+                    </button>
                 </form>
                 <c:if test="${not empty danhSachHDCT}">
                     <form action="/asm/thanh-toan" method="post">
                         <input type="hidden" name="idHoaDon" value="${danhSachHDCT[0].hoaDon.id}">
-                        <button type="submit" class="btn btn-primary" onclick="return confirm('Bạn có chắc chắn muốn thanh toán?')">Thanh toán</button>
+                        <button type="submit" class="btn btn-primary"
+                                onclick="return confirm('Bạn có chắc chắn muốn thanh toán?')">Thanh toán
+                        </button>
                     </form>
                 </c:if>
             </div>
@@ -277,5 +293,7 @@
     </div>
 </div>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
 </html>
