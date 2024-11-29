@@ -1,115 +1,93 @@
 package com.example.asmj5.asm.service;
 
 import com.example.asmj5.asm.entity.MauSac;
+import com.example.asmj5.asm.repository.MauSacRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class MauSacServiceTestUpdate {
+    private MauSacRepository mauSacRepository;
+    private MauSacService mauSacService;
 
-    MauSacService mauSacService;
     @BeforeEach
     void setUp() {
+        mauSacRepository = mock(MauSacRepository.class);
         mauSacService = new MauSacService();
     }
 
     @AfterEach
     void tearDown() {
+        mauSacService = null;
     }
 
     @Test
     void testUpdate_ThayDoiDayDu() {
-        MauSac mauSac = new MauSac();
-        mauSac.setMa("MS01");
-        mauSac.setTen("Đỏ");
-
-        mauSacService.add(mauSac);
+        MauSac existingMauSac = new MauSac();
+        existingMauSac.setMa("MS001");
+        existingMauSac.setTen("Đỏ");
 
         MauSac updatedMauSac = new MauSac();
-        updatedMauSac.setMa("MS01");
+        updatedMauSac.setMa("MS001");
         updatedMauSac.setTen("Xanh");
 
-        mauSacService.update("MS01", updatedMauSac);
+        when(mauSacRepository.findByMa("MS001")).thenReturn(Optional.of(existingMauSac));
+        when(mauSacRepository.save(updatedMauSac)).thenReturn(updatedMauSac);
 
-        List<MauSac> items = mauSacService.getItems();
-        assertEquals(1, items.size());
-        assertEquals("MS01", items.get(0).getMa());
-        assertEquals("Xanh", items.get(0).getTen());
+        assertDoesNotThrow(() -> mauSacService.update("MS001", updatedMauSac));
+        verify(mauSacRepository).save(updatedMauSac);
     }
 
-    @Test
-    void testUpdate_KhongTimThayMa() {
-        MauSac updatedMauSac = new MauSac();
-        updatedMauSac.setMa("MS02");
-        updatedMauSac.setTen("Xanh");
-
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> mauSacService.update("MS02", updatedMauSac));
-        assertEquals("Không tìm thấy mã cần cập nhật", exception.getMessage());
-    }
 
     @Test
     void testUpdate_NullObject() {
-        MauSac mauSac = new MauSac();
-        mauSac.setMa("MS01");
-        mauSac.setTen("Đỏ");
-
-        mauSacService.add(mauSac);
-
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> mauSacService.update("MS01", null));
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> mauSacService.update("MS001", null));
         assertEquals("Không thể cập nhật đối tượng null", exception.getMessage());
     }
 
     @Test
     void testUpdate_BoTrongTen() {
-        MauSac mauSac = new MauSac();
-        mauSac.setMa("MS01");
-        mauSac.setTen("Đỏ");
-
-        mauSacService.add(mauSac);
+        MauSac existingMauSac = new MauSac();
+        existingMauSac.setMa("MS001");
+        existingMauSac.setTen("Đỏ");
 
         MauSac updatedMauSac = new MauSac();
-        updatedMauSac.setMa("MS01");
+        updatedMauSac.setMa("MS001");
+        updatedMauSac.setTen("");
 
-        mauSacService.update("MS01", updatedMauSac);
+        when(mauSacRepository.findByMa("MS001")).thenReturn(Optional.of(existingMauSac));
+        when(mauSacRepository.save(updatedMauSac)).thenReturn(updatedMauSac);
 
-        List<MauSac> items = mauSacService.getItems();
-        assertEquals(1, items.size());
-        assertEquals("MS01", items.get(0).getMa());
-        assertNull(items.get(0).getTen());
+        assertDoesNotThrow(() -> mauSacService.update("MS001", updatedMauSac));
+        verify(mauSacRepository).save(updatedMauSac);
     }
 
     @Test
     void testUpdate_TenQuaDai() {
-        MauSac mauSac = new MauSac();
-        mauSac.setMa("MS01");
-        mauSac.setTen("Đỏ");
-
-        mauSacService.add(mauSac);
+        MauSac existingMauSac = new MauSac();
+        existingMauSac.setMa("MS001");
+        existingMauSac.setTen("Đỏ");
 
         MauSac updatedMauSac = new MauSac();
-        updatedMauSac.setMa("MS01");
-        updatedMauSac.setTen("Màu sắc rất dài và không hợp lệ do vượt quá giới hạn ký tự");
+        updatedMauSac.setMa("MS001");
+        updatedMauSac.setTen("Tên rất dài vượt quá số ký tự cho phép");
 
-        mauSacService.update("MS01", updatedMauSac);
+        when(mauSacRepository.findByMa("MS001")).thenReturn(Optional.of(existingMauSac));
+        when(mauSacRepository.save(updatedMauSac)).thenReturn(updatedMauSac);
 
-        List<MauSac> items = mauSacService.getItems();
-        assertEquals(1, items.size());
-        assertEquals("Màu sắc rất dài và không hợp lệ do vượt quá giới hạn ký tự", items.get(0).getTen());
+        assertDoesNotThrow(() -> mauSacService.update("MS001", updatedMauSac));
+        verify(mauSacRepository).save(updatedMauSac);
     }
 
     @Test
     void testUpdate_BoTrongMa() {
-        MauSac mauSac = new MauSac();
-        mauSac.setMa("MS01");
-        mauSac.setTen("Đỏ");
-
-        mauSacService.add(mauSac);
-
         MauSac updatedMauSac = new MauSac();
+        updatedMauSac.setMa("");
         updatedMauSac.setTen("Xanh");
 
         Exception exception = assertThrows(IllegalArgumentException.class, () -> mauSacService.update("", updatedMauSac));
@@ -117,84 +95,90 @@ class MauSacServiceTestUpdate {
     }
 
     @Test
-    void testUpdate_KhongThayDoi() {
-        MauSac mauSac = new MauSac();
-        mauSac.setMa("MS01");
-        mauSac.setTen("Đỏ");
-
-        mauSacService.add(mauSac);
-
-        MauSac updatedMauSac = new MauSac();
-        updatedMauSac.setMa("MS01");
-        updatedMauSac.setTen("Đỏ");
-
-        mauSacService.update("MS01", updatedMauSac);
-
-        List<MauSac> items = mauSacService.getItems();
-        assertEquals(1, items.size());
-        assertEquals("MS01", items.get(0).getMa());
-        assertEquals("Đỏ", items.get(0).getTen());
-    }
-
-    @Test
-    void testUpdate_ThayDoiTrangThai() {
-        MauSac mauSac = new MauSac();
-        mauSac.setMa("MS01");
-        mauSac.setTen("Đỏ");
-        mauSac.setTrangThai(true);
-
-        mauSacService.add(mauSac);
-
-        MauSac updatedMauSac = new MauSac();
-        updatedMauSac.setMa("MS01");
-        updatedMauSac.setTen("Đỏ");
-        updatedMauSac.setTrangThai(false);
-
-        mauSacService.update("MS01", updatedMauSac);
-
-        List<MauSac> items = mauSacService.getItems();
-        assertEquals(1, items.size());
-        assertFalse(items.get(0).getTrangThai());
-    }
-
-    @Test
     void testUpdate_DoiMaKhac() {
-        MauSac mauSac = new MauSac();
-        mauSac.setMa("MS01");
-        mauSac.setTen("Đỏ");
-
-        mauSacService.add(mauSac);
+        MauSac existingMauSac = new MauSac();
+        existingMauSac.setMa("MS001");
+        existingMauSac.setTen("Đỏ");
 
         MauSac updatedMauSac = new MauSac();
-        updatedMauSac.setMa("MS02");
+        updatedMauSac.setMa("MS002");
         updatedMauSac.setTen("Xanh");
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> mauSacService.update("MS01", updatedMauSac));
+        when(mauSacRepository.findByMa("MS001")).thenReturn(Optional.of(existingMauSac));
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> mauSacService.update("MS001", updatedMauSac));
         assertEquals("Mã trong đối tượng không trùng khớp với mã cần cập nhật", exception.getMessage());
     }
 
     @Test
-    void testUpdate_NhieuLan() {
-        MauSac mauSac = new MauSac();
-        mauSac.setMa("MS01");
-        mauSac.setTen("Đỏ");
+    void testUpdate_TenMauSacNull() {
+        MauSac existingMauSac = new MauSac();
+        existingMauSac.setMa("MS001");
+        existingMauSac.setTen("Đỏ");
 
-        mauSacService.add(mauSac);
+        MauSac updatedMauSac = new MauSac();
+        updatedMauSac.setMa("MS001");
 
-        MauSac updatedMauSac1 = new MauSac();
-        updatedMauSac1.setMa("MS01");
-        updatedMauSac1.setTen("Xanh");
+        when(mauSacRepository.findByMa("MS001")).thenReturn(Optional.of(existingMauSac));
+        when(mauSacRepository.save(updatedMauSac)).thenReturn(updatedMauSac);
 
-        MauSac updatedMauSac2 = new MauSac();
-        updatedMauSac2.setMa("MS01");
-        updatedMauSac2.setTen("Vàng");
-
-        mauSacService.update("MS01", updatedMauSac1);
-        mauSacService.update("MS01", updatedMauSac2);
-
-        List<MauSac> items = mauSacService.getItems();
-        assertEquals(1, items.size());
-        assertEquals("Vàng", items.get(0).getTen());
+        assertDoesNotThrow(() -> mauSacService.update("MS001", updatedMauSac));
+        verify(mauSacRepository).save(updatedMauSac);
     }
+
+    @Test
+    void testUpdate_MaQuaDai() {
+        MauSac existingMauSac = new MauSac();
+        existingMauSac.setMa("MS001");
+        existingMauSac.setTen("Đỏ");
+
+        MauSac updatedMauSac = new MauSac();
+        updatedMauSac.setMa("Mã dài vượt quá độ dài cho phép");
+        updatedMauSac.setTen("Xanh");
+
+        when(mauSacRepository.findByMa("MS001")).thenReturn(Optional.of(existingMauSac));
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> mauSacService.update("MS001", updatedMauSac));
+        assertEquals("Mã vượt quá độ dài cho phép", exception.getMessage());
+
+        verify(mauSacRepository, never()).save(any(MauSac.class));
+    }
+
+    @Test
+    void testUpdate_MaChuaKyTuDacBiet() {
+        MauSac existingMauSac = new MauSac();
+        existingMauSac.setMa("MS001");
+        existingMauSac.setTen("Đỏ");
+
+        MauSac updatedMauSac = new MauSac();
+        updatedMauSac.setMa("MS@001");
+        updatedMauSac.setTen("Xanh");
+
+        when(mauSacRepository.findByMa("MS001")).thenReturn(Optional.of(existingMauSac));
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> mauSacService.update("MS001", updatedMauSac));
+        assertEquals("Mã không được chứa ký tự đặc biệt", exception.getMessage());
+
+        verify(mauSacRepository, never()).save(any(MauSac.class));
+    }
+
+    @Test
+    void testUpdate_TenChuaKyTuDacBiet() {
+        MauSac existingMauSac = new MauSac();
+        existingMauSac.setMa("MS001");
+        existingMauSac.setTen("Đỏ");
+
+        MauSac updatedMauSac = new MauSac();
+        updatedMauSac.setMa("MS001");
+        updatedMauSac.setTen("X@nh");
+
+        when(mauSacRepository.findByMa("MS001")).thenReturn(Optional.of(existingMauSac));
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> mauSacService.update("MS001", updatedMauSac));
+        assertEquals("Tên không được chứa ký tự đặc biệt", exception.getMessage());
+
+        verify(mauSacRepository, never()).save(any(MauSac.class));
+    }
+
 
 }

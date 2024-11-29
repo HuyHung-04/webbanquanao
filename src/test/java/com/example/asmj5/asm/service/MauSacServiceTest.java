@@ -6,84 +6,105 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
-class MauSacServiceTest {
-
-    MauSacService mauSacService;
-    MauSacRepository mauSacRepository;
+class MauSacServiceTestAdd {
+    private MauSacService mauSacService;
+    private MauSacRepository mauSacRepository;
 
     @BeforeEach
     void setUp() {
+        mauSacRepository = mock(MauSacRepository.class);
         mauSacService = new MauSacService();
     }
 
     @AfterEach
     void tearDown() {
+        mauSacService = null;
     }
 
     @Test
-    void testAdd_DayDu() {
+    void testAdd_MauSacThanhCong() {
         MauSac mauSac = new MauSac();
         mauSac.setMa("MS01");
         mauSac.setTen("Đỏ");
+        mauSac.setTrangThai(true);
 
-        mauSacService.add(mauSac);
+        when(mauSacRepository.findAll()).thenReturn(new ArrayList<>());
 
-        List<MauSac> items = mauSacService.getItems();
-        assertEquals(1, items.size());
-        assertEquals("MS01", items.get(0).getMa());
-        assertEquals("Đỏ", items.get(0).getTen());
-        assertTrue(items.get(0).getTrangThai());
+        assertDoesNotThrow(() -> mauSacService.add(mauSac));
+        verify(mauSacRepository).save(mauSac);
     }
 
     @Test
-    void testAdd_KhongNhapGi() {
-        assertThrows(IllegalArgumentException.class, () -> mauSacService.add(null));
+    void testAdd_MauSacNull() {
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
+            mauSacService.add(null);
+        });
+        assertEquals("Không thể thêm đối tượng null", e.getMessage());
     }
 
     @Test
     void testAdd_BoTrongMa() {
         MauSac mauSac = new MauSac();
+        mauSac.setMa(null);
         mauSac.setTen("Đỏ");
+        mauSac.setTrangThai(true);
 
-        mauSacService.add(mauSac);
+        when(mauSacRepository.findAll()).thenReturn(new ArrayList<>());
 
-        List<MauSac> items = mauSacService.getItems();
-        assertEquals(1, items.size());
-        assertNull(items.get(0).getMa());
-        assertEquals("Đỏ", items.get(0).getTen());
-        assertTrue(items.get(0).getTrangThai());
+        assertDoesNotThrow(() -> mauSacService.add(mauSac));
+        verify(mauSacRepository).save(mauSac);
     }
 
     @Test
     void testAdd_BoTrongTen() {
         MauSac mauSac = new MauSac();
-        mauSac.setMa("MS001");
+        mauSac.setMa("MS01");
+        mauSac.setTen(null);
+        mauSac.setTrangThai(true);
 
-        mauSacService.add(mauSac);
+        when(mauSacRepository.findAll()).thenReturn(new ArrayList<>());
 
-        List<MauSac> items = mauSacService.getItems();
-        assertEquals(1, items.size());
-        assertEquals("MS001", items.get(0).getMa());
-        assertNull(items.get(0).getTen());
-        assertTrue(items.get(0).getTrangThai());
+        assertDoesNotThrow(() -> mauSacService.add(mauSac));
+        verify(mauSacRepository).save(mauSac);
     }
 
     @Test
-    void testAdd_MaDai() {
+    void testAdd_TrungMa() {
+        MauSac mauSac1 = new MauSac();
+        mauSac1.setMa("MS01");
+        mauSac1.setTen("Đỏ");
+        mauSac1.setTrangThai(true);
+
+        MauSac mauSac2 = new MauSac();
+        mauSac2.setMa("MS01");
+        mauSac2.setTen("Xanh");
+        mauSac2.setTrangThai(true);
+
+        when(mauSacRepository.findAll()).thenReturn(List.of(mauSac1));
+
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
+            mauSacService.add(mauSac2);
+        });
+        assertEquals("Mã màu sắc đã tồn tại", e.getMessage());
+    }
+
+    @Test
+    void testAdd_TenQuaDai() {
         MauSac mauSac = new MauSac();
-        mauSac.setMa("MS0123456789");
-        mauSac.setTen("Đỏ ");
+        mauSac.setMa("MS01");
+        mauSac.setTen("Tên rất dài vượt quá 50 ký tự, tên này không được phép sử dụng trong hệ thống");
+        mauSac.setTrangThai(true);
 
-        mauSacService.add(mauSac);
-
-        List<MauSac> items = mauSacService.getItems();
-        assertEquals(1, items.size());
-        assertEquals("MS0123456789", items.get(0).getMa());
-        assertEquals("Đỏ", items.get(0).getTen());
+        IllegalArgumentException e = assertThrows(IllegalArgumentException.class, () -> {
+            mauSacService.add(mauSac);
+        });
+        assertEquals("Tên màu sắc không được vượt quá 50 ký tự", e.getMessage());
     }
 
     @Test
@@ -91,75 +112,19 @@ class MauSacServiceTest {
         MauSac mauSac1 = new MauSac();
         mauSac1.setMa("MS01");
         mauSac1.setTen("Đỏ");
+        mauSac1.setTrangThai(true);
 
         MauSac mauSac2 = new MauSac();
         mauSac2.setMa("MS02");
         mauSac2.setTen("Xanh");
+        mauSac2.setTrangThai(true);
+
+        when(mauSacRepository.findAll()).thenReturn(new ArrayList<>());
 
         mauSacService.add(mauSac1);
         mauSacService.add(mauSac2);
 
-        List<MauSac> items = mauSacService.getItems();
-        assertEquals(2, items.size());
-        assertEquals("MS001", items.get(0).getMa());
-        assertEquals("MS002", items.get(1).getMa());
-    }
-
-    @Test
-    void testAdd_TrungMa() {
-        MauSac mauSac1 = new MauSac();
-        mauSac1.setMa("MS001");
-        mauSac1.setTen("Đỏ");
-
-        MauSac mauSac2 = new MauSac();
-        mauSac2.setMa("MS001");
-        mauSac2.setTen("Xanh");
-
-        mauSacService.add(mauSac1);
-
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> mauSacService.add(mauSac2));
-        assertEquals("Trung ma", exception.getMessage());
-    }
-
-
-    @Test
-    void testAdd_BoTrongMaVaTen() {
-        MauSac mauSac = new MauSac();
-
-        mauSacService.add(mauSac);
-
-        List<MauSac> items = mauSacService.getItems();
-        assertEquals(1, items.size());
-        assertNull(items.get(0).getMa());
-        assertNull(items.get(0).getTen());
-        assertTrue(items.get(0).getTrangThai());
-    }
-
-    @Test
-    void testAdd_TenDai() {
-        MauSac mauSac = new MauSac();
-        mauSac.setMa("MS002");
-        mauSac.setTen("Đỏ siêu đẹp và cực kỳ nổi bật nhất trong các loại màu đỏ");
-
-        mauSacService.add(mauSac);
-
-        List<MauSac> items = mauSacService.getItems();
-        assertEquals(1, items.size());
-        assertEquals("MS002", items.get(0).getMa());
-        assertEquals("Đỏ siêu đẹp và cực kỳ nổi bật nhất trong các loại màu đỏ", items.get(0).getTen());
-    }
-
-    @Test
-    void testAdd_BoTrongMa() {
-        MauSac mauSac = new MauSac();
-        mauSac.setTen("Đỏ");
-
-        mauSacService.add(mauSac);
-
-        List<MauSac> items = mauSacService.getItems();
-        assertEquals(1, items.size());
-        assertNull(items.get(0).getMa());
-        assertEquals("Đỏ", items.get(0).getTen());
-        assertTrue(items.get(0).getTrangThai());
+        verify(mauSacRepository, times(1)).save(mauSac1);
+        verify(mauSacRepository, times(1)).save(mauSac2);
     }
 }
