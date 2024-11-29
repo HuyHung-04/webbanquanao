@@ -40,13 +40,13 @@ public class NhanVienController {
 
     @GetMapping("/nv-detail")
     public String detail(@RequestParam("id") Integer id, Model model){
-        model.addAttribute("nv",nhanVienService.findById(id));
+        model.addAttribute("nv",nhanVienService.findById("id"));
         return "asm/nv-detail";
     }
 
     @GetMapping("/nv-viewupdate/{id}")
     public String viewUpdate(@PathVariable("id") Integer id, Model model){
-        model.addAttribute("nv",nhanVienService.findById(id));
+        model.addAttribute("nv",nhanVienService.findById("id"));
         return "asm/nv-viewupdate";
     }
 
@@ -64,7 +64,7 @@ public class NhanVienController {
     @PostMapping("/nv-search")
     public String searchById(@RequestParam("id") Integer id, Model model) {
         try {
-            NhanVien nhanVien = nhanVienService.findById(id);
+            NhanVien nhanVien = nhanVienService.findById("id");
             model.addAttribute("danhSach", List.of(nhanVien));
         } catch (NoSuchElementException e) {
             model.addAttribute("error", "Không tìm thấy nhân viên với ID: " + id);
