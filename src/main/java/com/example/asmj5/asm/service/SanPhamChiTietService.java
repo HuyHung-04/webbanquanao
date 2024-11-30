@@ -16,11 +16,42 @@ public class SanPhamChiTietService {
     }
 
     public void add(SanPhamChiTiet sanPhamChiTiet){
-        sanPhamChiTietRepository.save(sanPhamChiTiet);
+        if(validateSanPhamChiTiet(sanPhamChiTiet)){
+            sanPhamChiTietRepository.save(sanPhamChiTiet);
+        }
+    }
+
+    private boolean validateSanPhamChiTiet(SanPhamChiTiet sanPhamChiTiet) {
+        if(sanPhamChiTiet.getMa().equals("")){
+            throw new IllegalArgumentException("Khong duoc de trong ma");
+        }
+        if (sanPhamChiTiet.getMa().length() > 20) {
+            throw new IllegalArgumentException("Ma khong duoc nhap qua 20 ky tu");
+        }
+        if(sanPhamChiTiet.getSoLuong()<0){
+            throw new IllegalArgumentException("So luong khong duoc nhap nho hon 0");
+        }
+        if(sanPhamChiTiet.getDonGia()<0){
+            throw new IllegalArgumentException("Don gia khong duoc nhap nho hon 0");
+        }if (sanPhamChiTiet.getSoLuong() >= 1000000000) {
+            throw new IllegalArgumentException("So luong khong duoc nhap qua 1.000.000.000");
+        }
+        if (sanPhamChiTiet.getDonGia() >= 1000000000) {
+            throw new IllegalArgumentException("Don gia khong duoc nhap qua 1.000.000.000");
+        }
+        if (!String.valueOf(sanPhamChiTiet.getSoLuong()).matches("[0-9]+")) {
+            throw new IllegalArgumentException("So luong chi duoc chua so");
+        }
+        if (!String.valueOf(sanPhamChiTiet.getDonGia()).matches("[0-9]+")) {
+            throw new IllegalArgumentException("Don gia chi duoc chua so");
+        }
+        return true;
     }
 
     public void update(SanPhamChiTiet sanPhamChiTiet){
-        sanPhamChiTietRepository.save(sanPhamChiTiet);
+        if(validateSanPhamChiTiet(sanPhamChiTiet)){
+            sanPhamChiTietRepository.save(sanPhamChiTiet);
+        }
     }
 
     public void delete(Integer id){
